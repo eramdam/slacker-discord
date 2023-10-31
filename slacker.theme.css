@@ -13,7 +13,10 @@
   --inside-window-border-radius: 6px;
   /** Only used for dark mode */
   --inside-window-border-color: #86858a4d;
+
   --inside-window-background-secondary: hsl(var(--primary-660-hsl) / 0.5);
+  --header-height: 48px;
+  --sidebar-width: 240px;
 }
 /**
  * Main app transparency
@@ -81,10 +84,12 @@ body::after {
 
 /* Transparent server sidebar + transparent server sidebar header */
 :is(.theme-dark, .theme-light) .container__590e2,
+.privateChannels__93473,
 .header__104ca {
   background: transparent;
 }
 /* Remove shadow on server header */
+.privateChannels__93473 .searchBar_e4ea2a,
 .header__104ca {
   box-shadow: none;
 }
@@ -93,18 +98,150 @@ body::after {
 .panels__58331[aria-label] {
   background: transparent;
 }
-
 .panels__58331[aria-label] .container_ca50b9 {
   margin-bottom: 0;
 }
+
 /* Re-apply a background to everything but the header of the sidebar/chat panel */
-.theme-dark .container__590e2 > :not(:first-child, [class^="unreadBottom_"]),
+.theme-dark
+  :is(.privateChannels__93473, .container__590e2)
+  > :not(:first-child, [class^="unreadBottom_"]),
 .theme-dark .panels__58331[aria-label] > [class^="container_"] {
   background: var(--inside-window-background-secondary);
+  border-right: 1px solid var(--inside-window-border-color);
 }
 .theme-light .container__590e2 > :not(:first-child, [class^="unreadBottom_"]),
 .theme-light .panels__58331[aria-label] > [class^="container_"] {
   background: var(--bg-overlay-2, var(--background-secondary));
+}
+
+.container__5c7e7 .tabBody_b3d268 .peopleColumn__51df3 {
+  background: var(--bg-overlay-chat, var(--background-primary));
+}
+
+/* Transparent chat panel */
+.chat__52833,
+.container__5c7e7,
+.container__5c7e7 > section[role="navigation"],
+.chat__52833 .title_b7d661 {
+  background: transparent;
+}
+
+/* Remove shadow on chat header */
+.chat__52833 .title_b7d661 + .content__1a4fe::before,
+.tabBody_b3d268::before {
+  box-shadow: none;
+}
+
+/* Hide mask-gradient-thingy in channel titlebar */
+.chat__52833
+  .title_b7d661
+  > [class^="upperContainer_"]
+  > [class^="children_"]::after,
+#app-mount
+  > div.appAsidePanelWrapper__714a6
+  > div.notAppAsidePanel__9d124
+  > div.app_b1f720
+  div.children__32014::after {
+  background: none;
+}
+
+/**
+ * Border-radius and margin stuff
+ */
+.chat__52833,
+.sidebar_ded4b5,
+.tabBody_b3d268 {
+  margin-bottom: var(--inside-window-spacing);
+}
+.tabBody_b3d268,
+.chat__52833 {
+  margin-right: var(--inside-window-spacing);
+  border-bottom-right-radius: var(--inside-window-border-radius);
+}
+.tabBody_b3d268,
+.chat__52833 .title_b7d661 + .content__1a4fe {
+  border-top-right-radius: var(--inside-window-border-radius);
+  overflow: hidden;
+}
+
+.privateChannels__93473 [data-jump-section="global"],
+.sidebar_ded4b5 #channels {
+  border-top-left-radius: var(--inside-window-border-radius);
+}
+
+.sidebar_ded4b5 .panels__58331 {
+  border-bottom-left-radius: var(--inside-window-border-radius);
+  overflow: hidden;
+}
+
+/* Border stuff */
+.theme-dark .tabBody_b3d268,
+.theme-dark .chat__52833 {
+  border-bottom: 1px solid var(--inside-window-border-color);
+}
+.theme-dark .tabBody_b3d268,
+.theme-dark .chat__52833 .title_b7d661 + .content__1a4fe {
+  border-top: 1px solid var(--inside-window-border-color);
+  border-right: 1px solid var(--inside-window-border-color);
+}
+
+.theme-dark .privateChannels__93473 [data-jump-section="global"],
+.theme-dark .sidebar_ded4b5 #channels {
+  border-top: 1px solid var(--inside-window-border-color);
+  border-left: 1px solid var(--inside-window-border-color);
+}
+.theme-dark .sidebar_ded4b5 .panels__58331 {
+  border-left: 1px solid var(--inside-window-border-color);
+  border-bottom: 1px solid var(--inside-window-border-color);
+}
+
+.theme-light .container__037ed::after {
+  background-color: transparent;
+  content: "";
+  position: absolute;
+  z-index: -1;
+  inset: 0;
+  top: var(--header-height);
+  left: var(--custom-list-items-list-item-width);
+  right: var(--inside-window-spacing);
+  bottom: var(--inside-window-spacing);
+  border-radius: var(--inside-window-border-radius);
+  box-shadow: -4px -4px 16px rgba(0, 0, 0, 0.1);
+}
+
+.theme-light .sidebar_ded4b5::before {
+  content: "";
+  position: absolute;
+  clip-path: inset(var(--header-height) 0 var(--inside-window-spacing) 0);
+  left: 0;
+  width: var(--sidebar-width);
+  bottom: 0;
+  top: 0;
+  z-index: 9;
+  box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.1);
+  pointer-events: none;
+}
+
+/* Change icon background in servers list */
+.theme-dark
+  [data-dnd-name]
+  svg
+  foreignObject
+  [data-list-item-id]:not([class*="selected_"])
+  div[aria-hidden],
+.theme-dark [data-list-item-id="guildsnav___home"] > div,
+.theme-dark [data-list-item-id="guildsnav___create-join-button"],
+.theme-dark [data-list-item-id="guildsnav___guild-discover-button"] {
+  background: rgba(0, 0, 0, 0.4);
+}
+/* Separator between main "Discord" icon and the rest of the servers sidebar */
+.guildSeparator_dcb3cc {
+  opacity: 0;
+}
+
+.expandedFolderBackground__1bec6 {
+  background-color: transparent;
 }
 
 /** 
@@ -127,102 +264,7 @@ body::after {
 .theme-light .container__590e2 .flowerStarContainer_d8d14b {
   color: var(--background-accent) !important;
 }
-
-.sidebar_ded4b5 #channels > ul > div[aria-hidden],
+.sidebar_ded4b5 .hasBanner_e78601 ~ #channels > ul > div[aria-hidden],
 .container__590e2 .animatedContainer__341f6 {
   display: none;
-}
-
-/* Transparent chat panel */
-.chat__52833,
-.chat__52833 .title_b7d661 {
-  background: transparent;
-}
-
-/* Remove shadow on chat header */
-.chat__52833 .title_b7d661 + .content__1a4fe::before {
-  box-shadow: none;
-}
-
-/* Hide mask-gradient-thingy in channel titlebar */
-.chat__52833
-  .title_b7d661
-  > [class^="upperContainer_"]
-  > [class^="children_"]::after {
-  background: none;
-}
-
-/**
- * Border-radius and margin stuff
- */
-.chat__52833,
-.sidebar_ded4b5 {
-  margin-bottom: var(--inside-window-spacing);
-}
-.chat__52833 {
-  margin-right: var(--inside-window-spacing);
-  border-bottom-right-radius: var(--inside-window-border-radius);
-}
-.chat__52833 .title_b7d661 + .content__1a4fe {
-  border-top-right-radius: var(--inside-window-border-radius);
-  overflow: hidden;
-}
-.sidebar_ded4b5 #channels {
-  border-top-left-radius: var(--inside-window-border-radius);
-}
-.sidebar_ded4b5 .panels__58331 {
-  border-bottom-left-radius: var(--inside-window-border-radius);
-  overflow: hidden;
-}
-
-/* Border stuff */
-.theme-dark .chat__52833 {
-  border-bottom: 1px solid var(--inside-window-border-color);
-}
-.theme-dark .chat__52833 .title_b7d661 + .content__1a4fe {
-  border-top: 1px solid var(--inside-window-border-color);
-  border-right: 1px solid var(--inside-window-border-color);
-}
-.theme-dark .sidebar_ded4b5 #channels {
-  border-top: 1px solid var(--inside-window-border-color);
-  border-left: 1px solid var(--inside-window-border-color);
-}
-.theme-dark .sidebar_ded4b5 .panels__58331 {
-  border-left: 1px solid var(--inside-window-border-color);
-  border-bottom: 1px solid var(--inside-window-border-color);
-}
-
-.theme-light .container__037ed::after {
-  background-color: transparent;
-  content: "";
-  position: absolute;
-  z-index: -1;
-  inset: 0;
-  top: 48px;
-  left: var(--custom-list-items-list-item-width);
-  right: var(--inside-window-spacing);
-  bottom: var(--inside-window-spacing);
-  border-radius: var(--inside-window-border-radius);
-  box-shadow: -4px -4px 16px rgba(0, 0, 0, 0.1);
-}
-
-/* Change icon background in servers list */
-.theme-dark
-  [data-dnd-name]
-  svg
-  foreignObject
-  [data-list-item-id]:not([class*="selected_"])
-  div[aria-hidden],
-.theme-dark [data-list-item-id="guildsnav___home"] > div,
-.theme-dark [data-list-item-id="guildsnav___create-join-button"],
-.theme-dark [data-list-item-id="guildsnav___guild-discover-button"] {
-  background: rgba(0, 0, 0, 0.4);
-}
-/* Separator between main "Discord" icon and the rest of the servers sidebar */
-.guildSeparator_dcb3cc {
-  opacity: 0;
-}
-
-.expandedFolderBackground__1bec6 {
-  background-color: transparent;
 }
