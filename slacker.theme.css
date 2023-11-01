@@ -31,7 +31,9 @@ nav.wrapper_a7e7a8,
   background: transparent;
 }
 
-/** Background gradient setup */
+/** 
+ * Background gradient setup 
+ */
 body > * {
   z-index: 1;
 }
@@ -41,11 +43,12 @@ body::after {
   inset: 0;
   position: absolute;
 }
+
 .theme-dark body::after {
   -webkit-mask: linear-gradient(
     180deg,
-    rgba(255, 255, 255, 0.3),
-    rgba(255, 255, 255, 0.7) 200px
+    rgba(255, 255, 255, 0.4),
+    rgba(255, 255, 255, 0.95) 200px
   );
   background-image: radial-gradient(
       circle at 50% 50%,
@@ -61,11 +64,12 @@ body::after {
       rgb(18, 18, 19) 100%
     );
 }
+
 .theme-light body::after {
   -webkit-mask: linear-gradient(
     180deg,
-    rgba(255, 255, 255, 0),
-    rgba(255, 255, 255, 0.949) 200px
+    rgba(255, 255, 255, 0.4),
+    rgba(255, 255, 255, 0.95) 200px
   );
   background-image: radial-gradient(
       circle at 50% 50%,
